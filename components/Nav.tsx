@@ -10,7 +10,7 @@ export default function Nav(): ReactElement<any, any> {
   const handleClick = () => {
     getNav().then(
         (resp:any) => {
-          setNavTitle(resp.blog_name);
+          setNavTitle(resp.blogName);
         },
     );
   };
