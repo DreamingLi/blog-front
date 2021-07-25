@@ -2,15 +2,17 @@ import '../styles/globals.css';
 import React, {ReactElement} from 'react';
 import {Layout} from '../components';
 import 'antd/dist/antd.css';
-import {getNav} from '../lib/api';
+import {getFooter, getHeader} from '../lib/api';
 import {HeaderContent} from '../interface';
 import {NextComponentType, NextPageContext} from 'next';
-import { AxiosResponse } from 'axios';
+import {AxiosResponse} from 'axios';
+import {FooterContent} from '../interface';
 
 interface AppProps{
   Component: NextComponentType<NextPageContext, any, {}>,
   pageProps: any,
   headerContent: HeaderContent
+  footerContent: FooterContent
 }
 
 /**
@@ -18,14 +20,17 @@ interface AppProps{
  * @param { AppProps } Component
  * @param {any} pageProps
  * @param {HeaderContent} headerContent
+ * @param {FooterContent} footerContent
  * @return {ReactElement<any, any>} Component
  */
 function MyApp({
   Component,
   pageProps,
-  headerContent}: AppProps): ReactElement<any, any> {
+  headerContent,
+  footerContent,
+}: AppProps): ReactElement<any, any> {
   return (
-    <Layout headerContent={headerContent}>
+    <Layout headerContent={headerContent} footerContent={footerContent}>
       <Component {...pageProps} />
     </Layout>
   );
@@ -33,10 +38,18 @@ function MyApp({
 export default MyApp;
 
 MyApp.getInitialProps = async (appContext: any) => {
-  let headerContent: AxiosResponse<HeaderContent> | string = await getNav();
-  if (!headerContent) {
-    headerContent = '';
+  try {
+    let headerContent: AxiosResponse<HeaderContent> | null= await getHeader();
+    let footerContent: AxiosResponse<FooterContent> | null = await getFooter();
+    if (!headerContent) {
+      headerContent = null;
+      footerContent = null;
+    }
+    return {headerContent, footerContent};
+  } catch {
+    return {};
+  } finally {
+
   }
-  return {headerContent};
 };
 

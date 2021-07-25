@@ -25,3 +25,13 @@
     width: 5rem;
     text-align: center;
 }
+
+@media screen and (max-width:980px) {
+    .header__middle{
+        display: none
+    }
+}
+
+@media screen and (min-width: 981px) {
+    
+}

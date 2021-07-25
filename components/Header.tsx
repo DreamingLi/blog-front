@@ -12,10 +12,14 @@ interface HeaderProps{
  * @return { ReactElement<any, any>} Component
  */
 export default function Header({headerContent}: HeaderProps): ReactElement<any, any> {
+  if (headerContent === undefined) {
+    return (<div>FOR RENDERING HEADER, PLEASE CONNECT TO THE BACK SERVER</div>);
+  }
+
   const {
     leftName,
     nav,
-    rightSearch
+    rightSearch,
   } = headerContent;
 
   const {id, ...navContent} = nav;
