@@ -1,0 +1,27 @@
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 3rem;
+    line-height: 3rem;
+}
+
+.header__left{
+    width:5rem;
+    text-align: center;
+}
+
+.header__middle{
+    display:flex;
+    flex-direction: row;
+
+}
+
+.header__middle__item{
+    width: 4rem;
+    text-align: center;
+}
+.header__right{
+    width: 5rem;
+    text-align: center;
+}
