@@ -1,17 +1,27 @@
 import React, {ReactElement} from 'react';
-import Nav from './Nav';
+import Header from './Header';
 import Footer from './Footer';
+import {HeaderContent} from '../interface';
+import type {FooterContent} from '../interface';
+
+interface LayoutProps{
+  children: any,
+  headerContent: HeaderContent,
+  footerContent: FooterContent,
+
+}
 /**
- *
  * @param {any} children
+ * @param {HeaderContent} headerContent
+ * @param {FooterContent} footerContent
  * @return { ReactElement<any, any>} Component
  */
-function Layout({children}:any): ReactElement<any, any> {
+function Layout({children, headerContent, footerContent}: LayoutProps): ReactElement<any, any> {
   return (
     <div>
-      <Nav />
+      <Header headerContent={headerContent}/>
       {children}
-      <Footer />
+      <Footer footerContent={footerContent}/>
     </div>
   );
 }
