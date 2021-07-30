@@ -2,6 +2,8 @@ import React, {ReactElement} from 'react';
 import styles from '../styles/Header.module.css';
 import type {HeaderContent, HeaderContentItem} from '../interface';
 import Link from 'next/link';
+import {Menu, Dropdown} from 'antd';
+import {HeaderContentDropDownItem} from '../interface/headerTypes';
 
 interface HeaderProps{
   headerContent: HeaderContent
@@ -22,23 +24,38 @@ export default function Header({headerContent}: HeaderProps): ReactElement<any, 
     rightSearch,
   } = headerContent;
 
-  const {id, ...navContent} = nav;
-
-
-  // eslint-disable-next-line react/display-name
-  const renderNavContentItem = <U extends keyof T, T extends object>(key: U) => (navContent: T) => (
-    <div className={styles.header__middle__item} key={key as string}>
-      <Link href={key==='home'? '/':`/${key}`} ><a>{navContent[key]}</a></Link>
-    </div>
-  );
-
-  const renderNavContent = () => {
-    return Object.keys(navContent).map(
-        (key: any) => {
-          return renderNavContentItem<keyof HeaderContentItem, HeaderContentItem>(key)(navContent as HeaderContentItem);
-        },
+  const renderDropDownItem = (list: HeaderContentDropDownItem[], path: string) => {
+    return list.map(
+        (item: HeaderContentDropDownItem) => (
+          <Menu.Item key={item.id}>
+            <Link href={`${path}/${item.path}`}>{item.name}</Link>
+          </Menu.Item>
+        ),
     );
   };
+
+  const renderDropDown = (list: HeaderContentDropDownItem[], path: string) => (
+    <Menu>
+      {renderDropDownItem(list, path)}
+    </Menu>
+  );
+
+  const renderNavContentItem = (id: number, name: string, path: string, list: HeaderContentDropDownItem[]) => {
+    return (<div className={styles.header__middle__item} key={id}>
+      <Link href={path} >
+        <Dropdown overlay={renderDropDown(list, path)} placement="bottomCenter" arrow>
+          <a>{name} </a>
+        </Dropdown>
+      </Link>
+    </div>);
+  };
+
+  const renderNavContent = () => {
+    return nav.map(
+        (item: HeaderContentItem) => renderNavContentItem(item.id, item.name, item.path, item.list),
+    );
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.header__left}>

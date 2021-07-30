@@ -5,18 +5,19 @@ export interface HeaderContent{
     published_at: Date,
     created_at: Date,
     updated_at: Date
-    nav: HeaderContentItem,
+    nav: HeaderContentItem[],
     rightSearch: string
 }
 
 export interface HeaderContentItem{
     id: number,
-    home: string,
-    archive: string,
-    comments: string,
-    friends: string,
-    donate: string,
-    about: string,
-    app: string,
-    others: string
+    name: string,
+    path: string,
+    list: HeaderContentDropDownItem[]
+}
+
+export interface HeaderContentDropDownItem{
+    id: number,
+    name: string,
+    path: string
 }
